@@ -1,4 +1,3 @@
-# where data is created and stored in a hash_map like object(dict)
 types = ["story", "horror", "action", "fighting", "rpg", "strategy", "simulation", 
          "puzzle", "sport", "racing", "sandbox", "shooter", "platformer", "space", "card"]
 

@@ -1,4 +1,3 @@
-# File For Basic Tree Data Struct
 class TreeNode:
     def __init__(self, value):
         self.value = value
