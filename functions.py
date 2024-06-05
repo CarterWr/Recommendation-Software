@@ -16,7 +16,7 @@ def greet():
 
 def user_input():
     """Gathers user input for the autocomplete()"""
-    return input("\nType the first few letters of the genre you would like to be recommended to you: ")
+    return input("\nType the first few letters of the genre you would like to be recommended to you: ").strip()
 
 def pattern_search(user_input, target):
     """Check if user input is in target"""
@@ -29,7 +29,7 @@ def auto_complete_check(output):
     
        params: output(str): the option the user selected origonally
     """
-    user = input("\nDo you wish to select '{}' y/n: ".format(output))
+    user = input("\nDo you wish to select '{}' y/n: ".format(output)).strip()
     if user == "y":
         return True
     elif user == "n":
@@ -106,16 +106,13 @@ def format_results(bfs_result):
         print("Maturity Rating: {}".format(game[1]))
         print("Player Rating: {}".format(game[2]))
         print("Price: {}".format(game[3]))
-        if len(game[4]) == 1:
-            print("Where to buy: {}\n".format(game[4][0]))
-        elif len(game[4]) == 2:
-            print("Where to buy: {}, {}\n".format(game[4][0], game[4][1]))
+        print("Where to buy: {}\n".format(', '.join(game[4])))
         print("----------------------------------\n\n")
         
 
 def get_check_input():
     """tracks the users input if y recursive calls reccomendation main if n ends program else loops this function"""
-    user = input("Would you like to see diffrent genre reccomendations? y/n: ")
+    user = input("Would you like to see diffrent genre reccomendations? y/n: ").strip()
     if user == "y":
         return True
     if user == "n":
