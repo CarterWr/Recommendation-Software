@@ -16,13 +16,27 @@ def greet():
 
 def user_input():
     """Gathers user input for the autocomplete()"""
-    return input("Type the first few letters of the genre you would like to be recommended to you: ")
+    return input("\nType the first few letters of the genre you would like to be recommended to you: ")
 
 def pattern_search(user_input, target):
     """Check if user input is in target"""
     if user_input in target:
         return True
     return False
+
+def auto_complete_check(output):
+    """Dooble checks if user wants to do selected option
+    
+       params: output(str): the option the user selected origonally
+    """
+    user = input("\nDo you wish to select '{}' y/n: ".format(output))
+    if user == "y":
+        return True
+    elif user == "n":
+        return False
+    else:
+        print("\nInput was invalid please try again.")
+        auto_complete_check(output)
 
 def auto_complete():
     """Uses input function to get user input and checks if the begging part of genre equals input
@@ -45,7 +59,10 @@ def auto_complete():
         return auto_complete()
     
     if len(output) == 1:
-        return output[0]
+        if auto_complete_check(output[0]):
+            return output[0]
+        else:
+            return auto_complete()
 
 def initalize_tree():
     root = TreeNode("Root")
@@ -96,7 +113,15 @@ def format_results(bfs_result):
         print("----------------------------------\n\n")
         
 
-
+def get_check_input():
+    """tracks the users input if y recursive calls reccomendation main if n ends program else loops this function"""
+    user = input("Would you like to see diffrent genre reccomendations? y/n: ")
+    if user == "y":
+        return True
+    if user == "n":
+        return False
+    else:
+        return get_check_input()
 
 def goodbye():
     """goodbye message to user"""
@@ -107,20 +132,21 @@ def goodbye():
     print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
 
 
-def reccomendation_main(firstIteration=True):
+def reccomendation_main(firstIteration=True, root=None):
     """This function acts as the main function to call all needed functions"""
     if firstIteration:
         greet()
-  
-    bfs_result = budget_bfs(initalize_tree(), auto_complete())
-
+        root = initalize_tree()
+        
+    bfs_result = budget_bfs(root, auto_complete())
     format_results(bfs_result)
 
-    user = input("Would you like to see diffrent genre reccomendations? y/n: ")
 
-    if user == "y":
+    
+    if get_check_input():
         firstIteration = False
-        reccomendation_main(firstIteration)
-    elif user == "n":
+        return reccomendation_main(firstIteration, root)
+    else:
         goodbye()
+
 
