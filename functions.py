@@ -1,14 +1,25 @@
 # where BFS algo goes + other functions used in this program
-from data import types
+from data import types, game_data
+from Tree_struct import TreeNode
+from collections import deque
+
+
+
+
 def greet():
     """greet message to user"""
-    pass
+    print("\n\n=================================================")
+
+    print("Welcome to Carter's game reccomendation software")
+
+    print("=================================================\n\n")
 
 def user_input():
     """Gathers user input for the autocomplete()"""
-    return input("Type the first few letters of the genre you would like to be reccomended to you: ")
+    return input("Type the first few letters of the genre you would like to be recommended to you: ")
 
 def pattern_search(user_input, target):
+    """Check if user input is in target"""
     if user_input in target:
         return True
     return False
@@ -27,30 +38,89 @@ def auto_complete():
     
     if len(output) == 0:
         print("\nLooks like we don't have what you're looking for please try a diffrent genre.\n")
-        auto_complete()
+        return auto_complete()
 
     if len(output) > 1:
         print("\nLooks like you have a few options, please select one of the options given:\n {}\n".format(output))
-        auto_complete()
-    else:
+        return auto_complete()
+    
+    if len(output) == 1:
         return output[0]
 
+def initalize_tree():
+    root = TreeNode("Root")
+    for data in game_data:
+        temp = TreeNode(data)
+        root.add_child(temp)
 
+    return root
 
     
+def budget_bfs(root_node, target_value):
+    """Breadth first search but the tree is only 1 level deep so no need to search the children of children
+       
+       Params: root_node(node): The root node of a basic tree data struct
+               target_value(string): The value we returened from our autocomplete function
+    
+       Returns: result(arr): a list of all values of all target nodes found
+    """
+    result = []
+    for child in root_node.children:
+        if child.value[0] == target_value:
+            result.append(child.value[1:])
+    
+    return result
+
+
+def format_results(bfs_result):
+    """
+       Takes in the result list from bfs and prints to the user the reccomendations formatted
+    
+       params: bfs_result(arr): a arr of results from the budget_bfs algo function
+       
+       returns: None: just formats and prints results to the console to look nice
+       """
+    
+    print("\n\n\n\n\n\nBelow are the games recommended for you: \n\n")
+
+    for game in bfs_result:
+        print("\n\n----------------------------------\n")
+        print("Name: {}".format(game[0]))
+        print("Maturity Rating: {}".format(game[1]))
+        print("Player Rating: {}".format(game[2]))
+        print("Price: {}".format(game[3]))
+        if len(game[4]) == 1:
+            print("Where to buy: {}\n".format(game[4][0]))
+        elif len(game[4]) == 2:
+            print("Where to buy: {}, {}\n".format(game[4][0], game[4][1]))
+        print("----------------------------------\n\n")
+        
 
 
 
 def goodbye():
     """goodbye message to user"""
-    pass
+    print("\n\n+++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+
+    print("Thank you for using Carter's game reccomendation software")
+
+    print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
 
 
-def reccomendation_main():
+def reccomendation_main(firstIteration=True):
     """This function acts as the main function to call all needed functions"""
-    greet()
+    if firstIteration:
+        greet()
+  
+    bfs_result = budget_bfs(initalize_tree(), auto_complete())
 
-    auto_complete()
+    format_results(bfs_result)
 
-    goodbye()
+    user = input("Would you like to see diffrent genre reccomendations? y/n: ")
+
+    if user == "y":
+        firstIteration = False
+        reccomendation_main(firstIteration)
+    elif user == "n":
+        goodbye()
 
