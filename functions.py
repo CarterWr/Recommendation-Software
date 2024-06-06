@@ -127,7 +127,7 @@ def goodbye():
     print("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++\n\n")
 
 
-def reccomendation_main(firstIteration=True, root=None):
+def recommendation_main(firstIteration=True, root=None):
     """This function acts as the main function to call all needed functions"""
     if firstIteration:
         greet()
