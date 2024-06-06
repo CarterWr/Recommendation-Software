@@ -1,4 +1,4 @@
-from functions import reccomendation_main
+from functions import recommendation_main
 
 if __name__ == "__main__":
-    reccomendation_main()
+    recommendation_main()
