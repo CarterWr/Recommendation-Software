@@ -140,7 +140,7 @@ def recommendation_main(firstIteration=True, root=None):
     
     if get_check_input():
         firstIteration = False
-        return reccomendation_main(firstIteration, root)
+        return recommendation_main(firstIteration, root)
     else:
         goodbye()
 
